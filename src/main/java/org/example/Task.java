@@ -33,16 +33,18 @@ public class Task {
         this.worker = "Я";
     }
 
-    /*
-    Нужно внедрить проверку, чтобы нельзя было в результате редактирования получить
-    задачу без обязательных полей
-     */
 
     public void editTitle(String title) {
+        if (title == null || title.trim().isEmpty() || description == null || description.trim().isEmpty()){
+            throw new IncorrectTask("Заметка не может быть пустой. Добавьте заголовок или описание");
+        }
         this.title = title;
     }
 
     public void editDescription(String description) {
+        if (title == null || title.trim().isEmpty() || description == null || description.trim().isEmpty()){
+            throw new IncorrectTask("Заметка не может быть пустой. Добавьте заголовок или описание");
+        }
         this.description = description;
     }
 
@@ -72,12 +74,13 @@ public class Task {
     }
 
     public void print() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy"); // Создаем форматтер для даты
         System.out.printf("%-25s %s%n", "Заголовок", title);
         System.out.printf("%-25s %s%n", "Описание задачи", description);
         System.out.printf("%-25s %s (%s)%n", "Приоритет", priority, whichPriority(priority));
-        System.out.printf("%-25s %s%n", "Дедлайн", deadline);
+        System.out.printf("%-25s %s%n", "Дедлайн", deadline.format(formatter));
         long days_left = daysUntilDeadline();
-        if (days_left >= 0){
+        if (days_left >= 0) {
             System.out.printf("%-25s %s%n", "Дней до дедлайна", days_left);
         } else {
             System.out.printf("%-25s %s%n", "Просрочено на (дней)", Math.abs(days_left));
