@@ -10,29 +10,22 @@ public class Task {
     private int priority; // Приоритет: 0-низкий, 1-средний, 2-срочно, 3-максимально срочно
     private LocalDate deadline; // Дедлайн
     private String worker; // Исполнитель
+    private boolean done;
 
-    public Task(String title, String description, int priority, LocalDate deadline, String worker) throws IllegalArgumentException {
+    public Task(String title, String description, int priority, LocalDate deadline, String worker) throws IncorrectTask {
         if (title == null || title.trim().isEmpty() || description == null || description.trim().isEmpty()) {
-            throw new IllegalArgumentException("Нельзя создать задачу без названия или описания");
+            throw new IncorrectTask("Нельзя создать задачу без названия или описания");
         }
         if (priority < 0 || priority > 3) {
-            throw new IllegalArgumentException("Приоритет должен быть от 0 до 3");
+            throw new IncorrectTask("Приоритет должен быть от 0 до 3");
         }
         this.title = title;
         this.description = description;
         this.priority = priority;
         this.deadline = deadline;
         this.worker = worker;
+        this.done = false;
     }
-
-    public Task(String title, String description, int priority, LocalDate deadline) {
-        this.title = title;
-        this.description = description;
-        this.priority = priority;
-        this.deadline = deadline;
-        this.worker = "Я";
-    }
-
 
     public void editTitle(String title) {
         if (title == null || title.trim().isEmpty() || description == null || description.trim().isEmpty()){
@@ -86,6 +79,11 @@ public class Task {
             System.out.printf("%-25s %s%n", "Просрочено на (дней)", Math.abs(days_left));
         }
         System.out.printf("%-25s %s%n", "Исполнитель", worker);
+        if (done){
+            System.out.printf("%-25s %s%n", "Статус: ", "Выполнено");
+        } else {
+            System.out.printf("%-25s %s%n", "Статус: ", "В процессе");
+        }
     }
 
 
@@ -97,5 +95,13 @@ public class Task {
             case 3: return "Очень срочно!";
         }
         return "ERROR";
+    }
+
+    public boolean getDone(){
+        return getDone();
+    }
+
+    public void setDone(boolean done){
+        this.done = done;
     }
 }

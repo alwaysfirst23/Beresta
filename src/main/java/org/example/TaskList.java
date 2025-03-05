@@ -13,28 +13,12 @@ public class TaskList {
     }
 
     // Метод для добавления задачи
-    public void createTask(DateTimeFormatter dateFormatter) {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Введите заголовок задачи:  ");
-        String title = scanner.nextLine();
-
-        System.out.println("Введите описание задачи:  ");
-        String description = scanner.nextLine();
-
-        System.out.println("Введите приоритет (0-низкий, 1-средний, 2-срочно, 3-максимально срочно):  ");
-        int priority = Integer.parseInt(scanner.nextLine());
-
-        System.out.println("Введите дедлайн в формате (ДД/ММ/ГГГГ):");
-        LocalDate date = LocalDate.parse(scanner.nextLine(), dateFormatter);
-
-        System.out.println("Введите исполнителя:  (Оставьте пустым, если исполнитель - вы)");
-        String worker = scanner.nextLine();
-        scanner.close();
+    public void createTask(DateTimeFormatter dateFormatter, String title, String description,
+                           int priority, LocalDate date, String worker) throws IncorrectTask {
 
         Task task;
-        if (worker == null){
-            task = new Task(title, description, priority, date);
+        if (worker == null || worker.trim().isEmpty()){
+            task = new Task(title, description, priority, date, "Я");
         } else {
             task = new Task(title, description, priority, date, worker);
         }
@@ -57,7 +41,7 @@ public class TaskList {
 
     // Метод для редактирования задачи по индексу
     public void editTask(int index, String title, String description, int priority, LocalDate deadline) {
-        if (index >= 0 && index < task_list.size()) {
+        if (index >= 0 && index < task_list.size()) { // индексация с нуля
             Task task = task_list.get(index);
             task.editTitle(title);
             task.editDescription(description);
@@ -76,8 +60,10 @@ public class TaskList {
         }
     }
 
-    // Метод для получения количества задач
-    public int getTaskCount() {
-        return task_list.size();
+    public void editDone(int index) throws IncorrectTask {
+        if (index < 1 || index > task_list.size()){
+            throw new IncorrectTask("Задача с таким индексом не найдена");
+        }
+        task_list.get(index - 1).setDone(true);
     }
 }
