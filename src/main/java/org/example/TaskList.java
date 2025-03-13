@@ -26,27 +26,23 @@ public class TaskList {
     }
 
     // Метод для удаления задачи по индексу
-    public void removeTask() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Введите номер задачи, которую следует удалить, нумерация начинается с 1:  ");
-        int index = scanner.nextInt();
-        index++;
-        scanner.close();
-        if (index >= 0 && index < task_list.size()) {
-            task_list.remove(index);
+    public void removeTask(int index) {
+        if (index > 0 && index <= task_list.size()) {
+            task_list.remove(index-1);
         } else {
             System.out.println("Задача с таким индексом не найдена.");
         }
     }
 
     // Метод для редактирования задачи по индексу
-    public void editTask(int index, String title, String description, int priority, LocalDate deadline) {
+    public void editTask(int index, String title, String description, int priority, LocalDate deadline, String worker) {
         if (index >= 0 && index < task_list.size()) { // индексация с нуля
             Task task = task_list.get(index);
-            task.editTitle(title);
-            task.editDescription(description);
-            task.editPriority(priority);
-            task.setDeadline(deadline);
+            if (!(title == null || title.trim().isEmpty())) task.setTitle(title);
+            if (!(description == null || description.trim().isEmpty())) task.setDescription(description); // Добавить проверку на непустоту
+            if (priority != 0) task.setPriority(priority);
+            if (!(deadline == null)) task.setDeadline(deadline);
+            if (!(worker == null || worker.trim().isEmpty())) task.setWorker(worker);
         } else {
             System.out.println("Задача с таким индексом не найдена.");
         }

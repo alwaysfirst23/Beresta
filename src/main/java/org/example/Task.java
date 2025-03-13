@@ -27,23 +27,23 @@ public class Task {
         this.done = false;
     }
 
-    public void editTitle(String title) {
+    public void setTitle(String title) {
         if (title == null || title.trim().isEmpty() || description == null || description.trim().isEmpty()){
             throw new IncorrectTask("Заметка не может быть пустой. Добавьте заголовок или описание");
         }
         this.title = title;
     }
 
-    public void editDescription(String description) {
+    public void setDescription(String description) {
         if (title == null || title.trim().isEmpty() || description == null || description.trim().isEmpty()){
             throw new IncorrectTask("Заметка не может быть пустой. Добавьте заголовок или описание");
         }
         this.description = description;
     }
 
-    public void editPriority(int priority) throws IllegalArgumentException {
+    public void setPriority(int priority) throws IllegalArgumentException {
         if (priority < 0 || priority > 3) {
-            throw new IllegalArgumentException("Приоритет должен быть от 0 до 3");
+            throw new IllegalArgumentException("Приоритет должен быть от 1 до 4");
         }
         this.priority = priority;
     }
@@ -89,10 +89,10 @@ public class Task {
 
     private String whichPriority(int priority){
         switch (priority){
-            case 0: return "Вообще не срочно";
-            case 1: return "Не особо срочно";
-            case 2: return "Срочно";
-            case 3: return "Очень срочно!";
+            case 1: return "Вообще не срочно";
+            case 2: return "Не особо срочно";
+            case 3: return "Срочно";
+            case 4: return "Очень срочно!";
         }
         return "ERROR";
     }
@@ -103,5 +103,9 @@ public class Task {
 
     public void setDone(boolean done){
         this.done = done;
+    }
+
+    public void setWorker(String worker) {
+        this.worker = worker;
     }
 }
